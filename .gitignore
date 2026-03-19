@@ -1,3 +1,10 @@
 images/helpers-before-2026/
 images/josh-pictures/
 tools/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
