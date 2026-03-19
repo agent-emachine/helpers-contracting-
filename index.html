@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Helpers Contracting — Hardwood Floor Specialists, NW Twin Cities</title>
+  <meta name="description" content="Second-generation hardwood floor specialists serving Andover, Brooklyn Park, New Brighton, Blaine, Coon Rapids, Anoka, Rogers and the northwest Twin Cities metro. Sanding, refinishing, installation, LVP, and carpet." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brown:      '#5C3D2E',
+            'brown-dk': '#3D2820',
+            'brown-lt': '#7A5240',
+            cream:      '#FAF7F2',
+            warm:       '#F0EBE3',
+            'warm-dk':  '#E4DDD5',
+          },
+          fontFamily: {
+            heading: ['"Playfair Display"', 'Georgia', 'serif'],
+            body:    ['"Work Sans"', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Work Sans', system-ui, sans-serif; background-color: #FAF7F2; color: #2a1f1a; }
+    h1,h2,h3,h4 { font-family: 'Playfair Display', Georgia, serif; }
+
+    /* Nav */
+    #nav { transition: box-shadow 0.3s; }
+    #nav.scrolled { box-shadow: 0 2px 20px rgba(92,61,46,0.15); }
+
+    /* Fade-in on scroll */
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* Hero overlay */
+    .hero-overlay { background: linear-gradient(to right, rgba(61,40,32,0.72) 40%, rgba(61,40,32,0.2) 100%); }
+
+    /* Service cards */
+    .service-card img { transition: transform 0.4s ease; }
+    .service-card:hover img { transform: scale(1.03); }
+
+    /* Gallery grid */
+    .gallery-item { cursor: pointer; overflow: hidden; }
+    .gallery-item img { transition: transform 0.4s ease; display: block; width: 100%; height: 100%; object-fit: cover; }
+    .gallery-item:hover img { transform: scale(1.05); }
+
+    /* Lightbox */
+    #lightbox { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.92); align-items: center; justify-content: center; }
+    #lightbox.open { display: flex; }
+    #lightbox img { max-width: 92vw; max-height: 90vh; object-fit: contain; border-radius: 4px; }
+    #lb-close { position: absolute; top: 20px; right: 28px; font-size: 2.5rem; color: #fff; cursor: pointer; line-height: 1; }
+    #lb-prev, #lb-next { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2.5rem; color: #fff; cursor: pointer; padding: 0 16px; user-select: none; }
+    #lb-prev { left: 8px; }
+    #lb-next { right: 8px; }
+
+    /* Calculator */
+    .calc-input { background: #fff; border: 2px solid #E4DDD5; border-radius: 8px; padding: 12px 16px; width: 100%; font-family: 'Work Sans', sans-serif; font-size: 1rem; color: #2a1f1a; transition: border-color 0.2s; }
+    .calc-input:focus { outline: none; border-color: #5C3D2E; }
+    .calc-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235C3D2E' d='M6 8L0 0h12z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+
+    /* Mobile menu */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    /* Section spacing */
+    section { padding-top: 80px; padding-bottom: 80px; }
+    @media(max-width: 768px) { section { padding-top: 56px; padding-bottom: 56px; } }
+  </style>
+</head>
+<body class="bg-cream">
+
+<!-- ============================================================
+     LIGHTBOX
+============================================================ -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo lightbox">
+  <span id="lb-close" aria-label="Close">&times;</span>
+  <span id="lb-prev" aria-label="Previous">&#8249;</span>
+  <img id="lb-img" src="" alt="Floor photo" />
+  <span id="lb-next" aria-label="Next">&#8250;</span>
+</div>
+
+<!-- ============================================================
+     STICKY HEADER / NAV
+============================================================ -->
+<header id="nav" class="fixed top-0 left-0 right-0 z-50 bg-cream border-b border-warm-dk">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16 md:h-18">
+
+      <!-- Logo -->
+      <a href="#hero" class="flex flex-col leading-tight">
+        <span class="font-heading text-xl font-bold text-brown">Helpers</span>
+        <span class="font-heading text-xl font-bold text-brown" style="margin-top:-4px">Contracting</span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-brown-dk">
+        <a href="#services" class="hover:text-brown transition-colors">Services</a>
+        <a href="#gallery"  class="hover:text-brown transition-colors">Gallery</a>
+        <a href="#about"    class="hover:text-brown transition-colors">About</a>
+        <a href="#contact"  class="hover:text-brown transition-colors">Contact</a>
+      </nav>
+
+      <!-- Phone + CTA -->
+      <div class="hidden md:flex items-center gap-4">
+        <a href="tel:+13204965607" class="text-brown font-semibold text-sm hover:underline">320-496-5607</a>
+        <a href="#contact" class="bg-brown text-cream text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-brown-dk transition-colors whitespace-nowrap">Get Your Free Estimate</a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button id="menu-btn" class="md:hidden p-2 text-brown" aria-label="Open menu">
+        <svg id="icon-open"  width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6"  x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg id="icon-close" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="md:hidden bg-cream border-t border-warm-dk px-4 py-4">
+    <nav class="flex flex-col gap-4 text-brown-dk font-medium mb-4">
+      <a href="#services" class="mobile-link hover:text-brown">Services</a>
+      <a href="#gallery"  class="mobile-link hover:text-brown">Gallery</a>
+      <a href="#about"    class="mobile-link hover:text-brown">About</a>
+      <a href="#contact"  class="mobile-link hover:text-brown">Contact</a>
+    </nav>
+    <div class="flex flex-col gap-3">
+      <a href="tel:+13204965607" class="text-brown font-semibold">320-496-5607</a>
+      <a href="#contact" class="mobile-link bg-brown text-cream text-sm font-semibold px-5 py-3 rounded-full text-center hover:bg-brown-dk transition-colors">Get Your Free Estimate</a>
+    </div>
+  </div>
+</header>
+
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section id="hero" class="relative min-h-screen flex items-center pt-16" style="padding-top:64px; padding-bottom:0;">
+  <div class="absolute inset-0">
+    <img src="images/web/josh-applying-poly.jpg" alt="Josh applying polyurethane finish to a hardwood floor" class="w-full h-full object-cover object-center" loading="eager" />
+    <div class="hero-overlay absolute inset-0"></div>
+  </div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 md:py-32">
+    <div class="max-w-xl">
+      <p class="text-warm-dk text-sm font-semibold tracking-widest uppercase mb-4">NW Twin Cities Hardwood Specialists</p>
+      <h1 class="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-cream leading-tight mb-6">
+        Restoring Wood Floors<br />to Their Original<br />Beauty
+      </h1>
+      <p class="text-warm text-lg md:text-xl leading-relaxed mb-8">
+        Second-generation hardwood specialists serving the northwest Twin Cities. We sand, stain, refinish, and install — and we'll be straight with you about what it costs.
+      </p>
+      <a href="#contact" class="inline-block bg-brown text-cream font-semibold text-lg px-8 py-4 rounded-full hover:bg-brown-dk transition-colors">Get Your Free Estimate</a>
+    </div>
+  </div>
+  <!-- Scroll hint -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-cream opacity-60 animate-bounce">
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SERVICES
+============================================================ -->
+<section id="services" class="bg-cream">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-14 fade-in">
+      <p class="text-brown text-sm font-semibold tracking-widest uppercase mb-3">What We Do</p>
+      <h2 class="font-heading text-4xl md:text-5xl text-brown-dk mb-5">Our Services</h2>
+      <p class="text-lg text-stone-600 leading-relaxed">We keep it focused so we can keep it excellent. Flooring is all we do — and we do it right.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- Card 1 — Refinishing -->
+      <div class="service-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow fade-in">
+        <div class="h-64 overflow-hidden">
+          <img src="images/web/poly-after-stain.jpg" alt="Freshly finished hardwood floor with poly coat" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+        <div class="p-7">
+          <h3 class="font-heading text-2xl text-brown-dk mb-3">Hardwood Refinishing</h3>
+          <p class="text-stone-600 leading-relaxed">Your floors have decades of life left in them. We sand them down to bare wood, match the stain to your vision, and seal them with a finish that holds up to real life. Dust-free sanding with HEPA filtration — your house stays clean while we work.</p>
+        </div>
+      </div>
+
+      <!-- Card 2 — Installation -->
+      <div class="service-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow fade-in">
+        <div class="h-64 overflow-hidden">
+          <img src="images/web/grant-1-finish.jpg" alt="Completed hardwood floor installation" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+        <div class="p-7">
+          <h3 class="font-heading text-2xl text-brown-dk mb-3">Hardwood Installation</h3>
+          <p class="text-stone-600 leading-relaxed">New hardwood changes a home. We install solid and engineered hardwood with the same attention to detail whether it's a single room or a whole house. We'll move your furniture and appliances — don't worry about it.</p>
+        </div>
+      </div>
+
+      <!-- Card 3 — LVP -->
+      <div class="service-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow fade-in">
+        <div class="h-64 overflow-hidden">
+          <img src="images/web/applying-stain.jpg" alt="Light oak flooring installation" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+        <div class="p-7">
+          <h3 class="font-heading text-2xl text-brown-dk mb-3">LVP &amp; Engineered Flooring</h3>
+          <p class="text-stone-600 leading-relaxed">Not every room needs hardwood, and we'll tell you that honestly. Luxury vinyl plank and engineered flooring go in fast, hold up to moisture, and look great. We'll help you pick the right product for the right room.</p>
+        </div>
+      </div>
+
+      <!-- Card 4 — Carpet -->
+      <div class="service-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow fade-in">
+        <div class="h-64 overflow-hidden">
+          <img src="images/web/angis-complete.jpg" alt="Clean completed flooring job" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+        <div class="p-7">
+          <h3 class="font-heading text-2xl text-brown-dk mb-3">Carpet Installation</h3>
+          <p class="text-stone-600 leading-relaxed">Sometimes carpet is the answer — bedrooms, basements, stairs. We install it clean and tight. No shortcuts.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     GALLERY
+============================================================ -->
+<section id="gallery" class="bg-warm">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-14 fade-in">
+      <p class="text-brown text-sm font-semibold tracking-widest uppercase mb-3">The Work</p>
+      <h2 class="font-heading text-4xl md:text-5xl text-brown-dk mb-5">Real Jobs, Real Results</h2>
+      <p class="text-lg text-stone-600">Every photo on this page is from an actual job. No staging, no stock images.</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+      <div class="gallery-item rounded-xl aspect-square fade-in" data-index="0"><img src="images/web/josh-applying-poly.jpg"      alt="Josh applying polyurethane finish"         loading="lazy" /></div>
+      <div class="gallery-item rounded-xl aspect-square fade-in" data-index="1"><img src="images/web/bare-white-oak.jpg"          alt="Bare white oak after sanding"              loading="lazy" /></div>
+      <div class="gallery-item rounded-xl aspect-square fade-in" data-index="2"><img src="images/web/applying-stain.jpg"          alt="Applying stain to hardwood floors"         loading="lazy" /></div>
+      <div class="gallery-item rounded-xl aspect-square fade-in" data-index="3"><img src="images/web/stain-only.jpg"              alt="Floors after stain before poly"            loading="lazy" /></div>
+      <div class="gallery-item rounded-xl aspect-square fade-in" data-index="4"><img src="images/web/poly-after-stain.jpg"        alt="Poly coat over stained hardwood"           loading="lazy" /></div>
+      <div class="gallery-item rounded-xl aspect-square fade-in" data-index="5"><img src="images/web/grant-1-finish.jpg"          alt="Completed installation — Grant project"    loading="lazy" /></div>
+      <div class="gallery-item rounded-xl aspect-square fade-in" data-index="6"><img src="images/web/angis-complete.jpg"          alt="Completed hardwood flooring project"       loading="lazy" /></div>
+      <div class="gallery-item rounded-xl aspect-square fade-in" data-index="7"><img src="images/web/josh-with-floor-and-face.jpg" alt="Josh with a finished floor"               loading="lazy" /></div>
+    </div>
+
+    <p class="text-center text-stone-500 text-sm mt-6 fade-in">Click any photo to view full size</p>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     COST CALCULATOR
+============================================================ -->
+<section id="calculator" class="bg-cream">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-12 fade-in">
+      <p class="text-brown text-sm font-semibold tracking-widest uppercase mb-3">No Games</p>
+      <h2 class="font-heading text-4xl md:text-5xl text-brown-dk mb-5">Straight Talk on Pricing</h2>
+      <p class="text-lg text-stone-600 leading-relaxed">Most flooring contractors make you wait for a quote. Here are our starting rates so you know what you're working with before you even call.</p>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm p-8 md:p-10 fade-in">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+
+        <div>
+          <label for="sqft" class="block text-sm font-semibold text-brown-dk mb-2">Square footage</label>
+          <input type="number" id="sqft" class="calc-input" placeholder="e.g. 500" min="1" max="99999" inputmode="numeric" />
+        </div>
+
+        <div>
+          <label for="service-type" class="block text-sm font-semibold text-brown-dk mb-2">Service type</label>
+          <select id="service-type" class="calc-input calc-select">
+            <option value="">— Choose a service —</option>
+            <option value="lvp">LVP Installation</option>
+            <option value="lvp-under">LVP Installation + Underlayment</option>
+            <option value="refinish">Hardwood Sanding &amp; Refinishing</option>
+            <option value="install">Hardwood Installation</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Result -->
+      <div id="calc-result" class="hidden rounded-xl bg-warm px-8 py-6 text-center mb-6">
+        <p class="text-stone-500 text-sm mb-1">Estimated range</p>
+        <p id="calc-range" class="font-heading text-4xl md:text-5xl text-brown font-bold mb-2">—</p>
+        <p class="text-stone-500 text-sm">Based on <span id="calc-sqft-display">—</span> sq ft of <span id="calc-service-display">—</span></p>
+      </div>
+
+      <div id="calc-placeholder" class="rounded-xl bg-warm px-8 py-6 text-center mb-6">
+        <p class="text-stone-400 text-base">Enter square footage and select a service to see your estimate.</p>
+      </div>
+
+      <p class="text-stone-500 text-sm leading-relaxed border-t border-warm-dk pt-6">
+        <strong class="text-brown-dk">Every home is different.</strong> These are starting points — your actual estimate depends on the condition of your subfloor, the product you choose, and the scope of work. Call or text for a free estimate and we'll give you real numbers.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     ABOUT
+============================================================ -->
+<section id="about" class="bg-warm">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+      <div class="fade-in order-2 lg:order-1">
+        <p class="text-brown text-sm font-semibold tracking-widest uppercase mb-4">The People Behind the Work</p>
+        <h2 class="font-heading text-4xl md:text-5xl text-brown-dk mb-8">Meet the Happy Helpers</h2>
+
+        <div class="space-y-5 text-stone-600 leading-relaxed text-lg">
+          <p>Helpers Contracting is a family operation. Josh learned hardwood flooring from his dad, who started the business in 2008. He's been in the trades since he was 14 — sanding floors, learning grain patterns, figuring out which stain brings out the character in a piece of oak.</p>
+
+          <p>After a few years sharpening his skills with larger residential contractors and a stint in sales at a Fortune 500 company, Josh came back to what he knows. He formed Helpers Contracting in 2015 because this is where he belongs — on job sites, working with his hands, leaving homes better than he found them.</p>
+
+          <p>We price fairly and we communicate clearly. If something isn't going to work the way you want it to, we'll tell you before we start — not after. If you have a plan, we'll execute it. If you don't have a plan, we'll help you build one.</p>
+
+          <p>We serve Andover, Brooklyn Park, New Brighton, Blaine, Coon Rapids, Anoka, Rogers, and the surrounding northwest metro.</p>
+        </div>
+
+        <p class="font-heading text-2xl italic text-brown mt-8">Respect the Craft.</p>
+      </div>
+
+      <div class="fade-in order-1 lg:order-2">
+        <div class="rounded-2xl overflow-hidden shadow-lg aspect-[4/3]">
+          <img src="images/web/josh-with-floor-and-face.jpg" alt="Josh with a beautifully finished hardwood floor" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     B2B — CONTRACTORS & GCs
+============================================================ -->
+<section id="contractors" class="bg-brown-dk text-cream">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <div class="fade-in">
+      <p class="text-warm-dk text-sm font-semibold tracking-widest uppercase mb-4">Trade Partners</p>
+      <h2 class="font-heading text-4xl md:text-5xl mb-8">For Contractors &amp; GCs</h2>
+
+      <div class="space-y-5 text-warm text-lg leading-relaxed max-w-2xl mx-auto mb-10">
+        <p>If you're a general contractor, a fellow sub, or a builder who needs reliable flooring — let's talk.</p>
+        <p>We show up when we say we will. We don't surprise you with change orders. We work clean on occupied and unoccupied sites. And we're happy to work under your scope or handle flooring as our own line item — whatever makes the job flow better.</p>
+        <p class="font-semibold text-cream">Your win is my win. I'd rather be a contractor you call every time than one you call once.</p>
+      </div>
+
+      <a href="tel:+13204965607" class="inline-flex items-center gap-3 bg-cream text-brown font-semibold text-lg px-8 py-4 rounded-full hover:bg-warm transition-colors">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+        Call Josh Direct
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     CONTACT
+============================================================ -->
+<section id="contact" class="bg-cream">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-12 fade-in">
+      <p class="text-brown text-sm font-semibold tracking-widest uppercase mb-3">Reach Out</p>
+      <h2 class="font-heading text-4xl md:text-5xl text-brown-dk mb-5">Let's Talk About Your Floors</h2>
+      <p class="text-lg text-stone-600 leading-relaxed">Whether you've got a plan or you're just starting to think about it — reach out. Free estimates, honest answers, no pressure.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+
+      <!-- Contact info -->
+      <div class="fade-in space-y-6">
+        <div>
+          <p class="text-sm font-semibold text-brown-dk uppercase tracking-wide mb-1">Phone / Text</p>
+          <a href="tel:+13204965607" class="text-brown font-heading text-3xl font-semibold hover:underline">320-496-5607</a>
+          <p class="text-stone-500 text-sm mt-1">Call or text — we respond fast.</p>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-brown-dk uppercase tracking-wide mb-1">Email</p>
+          <a href="mailto:helperscontracting@gmail.com" class="text-brown text-lg hover:underline">helperscontracting@gmail.com</a>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-brown-dk uppercase tracking-wide mb-2">Service Area</p>
+          <p class="text-stone-600 leading-relaxed">Andover · Brooklyn Park · New Brighton · Blaine · Coon Rapids · Anoka · Rogers &amp; the NW Twin Cities Metro</p>
+        </div>
+        <div class="pt-2">
+          <img src="images/web/bare-white-oak.jpg" alt="Bare white oak after sanding — ready for stain" class="rounded-xl w-full object-cover h-48" loading="lazy" />
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="fade-in">
+        <form id="contact-form" action="https://formspree.io/f/maqplrkj" method="POST" class="space-y-5">
+
+          <div>
+            <label for="name" class="block text-sm font-semibold text-brown-dk mb-1.5">Name <span class="text-brown">*</span></label>
+            <input type="text" id="name" name="name" required class="calc-input" placeholder="Your name" />
+          </div>
+
+          <div>
+            <label for="phone" class="block text-sm font-semibold text-brown-dk mb-1.5">Phone <span class="text-brown">*</span></label>
+            <input type="tel" id="phone" name="phone" required class="calc-input" placeholder="(612) 555-1234" />
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-semibold text-brown-dk mb-1.5">Email <span class="text-stone-400 font-normal">(optional)</span></label>
+            <input type="email" id="email" name="email" class="calc-input" placeholder="you@email.com" />
+          </div>
+
+          <div>
+            <label for="area" class="block text-sm font-semibold text-brown-dk mb-1.5">Address or City <span class="text-brown">*</span></label>
+            <input type="text" id="area" name="area" required class="calc-input" placeholder="e.g. Brooklyn Park or 123 Oak St" />
+          </div>
+
+          <div>
+            <label for="message" class="block text-sm font-semibold text-brown-dk mb-1.5">What do you need? <span class="text-brown">*</span></label>
+            <textarea id="message" name="message" required rows="4" class="calc-input resize-none" placeholder="Tell me about your floors — what's there now, what you're thinking, and the square footage if you know it."></textarea>
+          </div>
+
+          <!-- Hidden source field -->
+          <input type="hidden" name="_subject" value="New estimate request — Helpers Contracting website" />
+
+          <button type="submit" class="w-full bg-brown text-cream font-semibold text-lg py-4 rounded-full hover:bg-brown-dk transition-colors">Send It</button>
+
+          <!-- Success / error messages -->
+          <div id="form-success" class="hidden text-center py-3 px-4 bg-green-50 border border-green-200 rounded-xl text-green-800 font-medium">Got it — we'll be in touch soon.</div>
+          <div id="form-error"   class="hidden text-center py-3 px-4 bg-red-50 border border-red-200 rounded-xl text-red-800">Something went wrong. Try calling or emailing us directly.</div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="bg-brown-dk text-warm py-12">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+
+      <div>
+        <h3 class="font-heading text-2xl text-cream mb-1">Helpers Contracting</h3>
+        <p class="font-heading italic text-warm-dk text-lg">Respect the Craft.</p>
+      </div>
+
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wide text-warm-dk mb-3">Service Area</p>
+        <p class="text-warm leading-relaxed text-sm">Andover · Brooklyn Park · New Brighton · Blaine · Coon Rapids · Anoka · Rogers &amp; the NW Twin Cities Metro</p>
+      </div>
+
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wide text-warm-dk mb-3">Contact</p>
+        <a href="tel:+13204965607" class="block text-warm hover:text-cream mb-1">320-496-5607</a>
+        <a href="mailto:helperscontracting@gmail.com" class="block text-warm hover:text-cream text-sm">helperscontracting@gmail.com</a>
+      </div>
+
+    </div>
+
+    <div class="border-t border-brown-lt pt-6 text-center text-warm-dk text-sm">
+      &copy; <span id="footer-year"></span> Helpers Contracting. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+// Footer year
+document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+// ── Sticky nav shadow ──────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
+});
+
+// ── Mobile menu ────────────────────────────────────────────────
+const menuBtn   = document.getElementById('menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+const iconOpen  = document.getElementById('icon-open');
+const iconClose = document.getElementById('icon-close');
+
+menuBtn.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  iconOpen.style.display  = open ? 'none'  : 'block';
+  iconClose.style.display = open ? 'block' : 'none';
+});
+
+document.querySelectorAll('.mobile-link').forEach(el => {
+  el.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    iconOpen.style.display  = 'block';
+    iconClose.style.display = 'none';
+  });
+});
+
+// ── Scroll fade-in ─────────────────────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── Lightbox ───────────────────────────────────────────────────
+const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+const lightbox  = document.getElementById('lightbox');
+const lbImg     = document.getElementById('lb-img');
+let lbIndex     = 0;
+
+function openLightbox(idx) {
+  lbIndex = idx;
+  const src = galleryItems[idx].querySelector('img').src;
+  const alt = galleryItems[idx].querySelector('img').alt;
+  lbImg.src = src;
+  lbImg.alt = alt;
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+  lbImg.src = '';
+}
+
+function lbNav(dir) {
+  lbIndex = (lbIndex + dir + galleryItems.length) % galleryItems.length;
+  const src = galleryItems[lbIndex].querySelector('img').src;
+  const alt = galleryItems[lbIndex].querySelector('img').alt;
+  lbImg.src = src;
+  lbImg.alt = alt;
+}
+
+galleryItems.forEach((item, i) => item.addEventListener('click', () => openLightbox(i)));
+document.getElementById('lb-close').addEventListener('click', closeLightbox);
+document.getElementById('lb-prev').addEventListener('click', () => lbNav(-1));
+document.getElementById('lb-next').addEventListener('click', () => lbNav(1));
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape')     closeLightbox();
+  if (e.key === 'ArrowLeft')  lbNav(-1);
+  if (e.key === 'ArrowRight') lbNav(1);
+});
+
+// ── Cost Calculator ────────────────────────────────────────────
+const rates = {
+  lvp:       { low: 2.50, high: 3.50,  label: 'LVP Installation' },
+  'lvp-under': { low: 3.50, high: 4.75, label: 'LVP + Underlayment' },
+  refinish:  { low: 3.00, high: 5.00,  label: 'Hardwood Sanding & Refinishing' },
+  install:   { low: 3.00, high: 5.50,  label: 'Hardwood Installation' },
+};
+
+function formatDollar(n) {
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+
+function calcUpdate() {
+  const sqft    = parseFloat(document.getElementById('sqft').value);
+  const svcKey  = document.getElementById('service-type').value;
+  const result  = document.getElementById('calc-result');
+  const placeholder = document.getElementById('calc-placeholder');
+
+  if (!sqft || sqft <= 0 || !svcKey) {
+    result.classList.add('hidden');
+    placeholder.classList.remove('hidden');
+    return;
+  }
+
+  const r = rates[svcKey];
+  const low  = sqft * r.low;
+  const high = sqft * r.high;
+
+  document.getElementById('calc-range').textContent = `${formatDollar(low)} – ${formatDollar(high)}`;
+  document.getElementById('calc-sqft-display').textContent = Math.round(sqft).toLocaleString() + ' sq ft';
+  document.getElementById('calc-service-display').textContent = r.label;
+
+  result.classList.remove('hidden');
+  placeholder.classList.add('hidden');
+}
+
+document.getElementById('sqft').addEventListener('input', calcUpdate);
+document.getElementById('service-type').addEventListener('change', calcUpdate);
+
+// ── Contact form AJAX ──────────────────────────────────────────
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('button[type="submit"]');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(this.action, {
+      method: 'POST',
+      body: new FormData(this),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (res.ok) {
+      this.reset();
+      document.getElementById('form-success').classList.remove('hidden');
+      document.getElementById('form-error').classList.add('hidden');
+      btn.textContent = 'Send It';
+      btn.disabled = false;
+    } else {
+      throw new Error('not ok');
+    }
+  } catch {
+    document.getElementById('form-error').classList.remove('hidden');
+    btn.textContent = 'Send It';
+    btn.disabled = false;
+  }
+});
+</script>
+
+</body>
+</html>
