@@ -1,3 +1,6 @@
 images/helpers-before-2026/
 images/josh-pictures/
 tools/
+.git
+.wrangler
+node_modules

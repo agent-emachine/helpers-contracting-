@@ -1,0 +1,6 @@
+name = "helpers-contracting"
+compatibility_date = "2026-03-19"
+
+[site]
+bucket = "."
+exclude = [".git", ".wrangler", "node_modules", "tools", "images/helpers-before-2026", "images/josh-pictures"]
