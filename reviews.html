@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leave Us a Review | Helpers Contracting</title>
+  <meta name="description" content="Loved your new floors? Leave Helpers Contracting a quick Google review — it takes about 2 minutes and means the world to us." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brown:      '#5C3D2E',
+            'brown-dk': '#3D2820',
+            'brown-lt': '#7A5240',
+            cream:      '#FAF7F2',
+            warm:       '#F0EBE3',
+            'warm-dk':  '#E4DDD5',
+          },
+          fontFamily: {
+            heading: ['"Playfair Display"', 'Georgia', 'serif'],
+            body:    ['"Work Sans"', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Work Sans', system-ui, sans-serif; background-color: #FAF7F2; color: #2a1f1a; }
+    h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; }
+  </style>
+</head>
+<body class="bg-cream min-h-screen flex flex-col">
+
+<!-- ============================================================
+     STICKY HEADER / NAV
+============================================================ -->
+<header class="bg-cream border-b border-warm-dk sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+
+      <!-- Logo -->
+      <a href="index.html" class="flex flex-col leading-tight">
+        <span class="font-heading text-xl font-bold text-brown">Helpers</span>
+        <span class="font-heading text-xl font-bold text-brown" style="margin-top:-4px">Contracting</span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-brown-dk">
+        <a href="index.html#services" class="hover:text-brown transition-colors">Services</a>
+        <a href="index.html#gallery"  class="hover:text-brown transition-colors">Gallery</a>
+        <a href="index.html#about"    class="hover:text-brown transition-colors">About</a>
+        <a href="index.html#contact"  class="hover:text-brown transition-colors">Contact</a>
+        <a href="reviews.html"        class="text-brown font-semibold">Reviews</a>
+      </nav>
+
+      <!-- Phone -->
+      <div class="hidden md:flex items-center gap-4">
+        <a href="tel:+13204965607" class="text-brown font-semibold text-sm hover:underline">320-496-5607</a>
+        <a href="index.html#contact" class="bg-brown text-cream text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-brown-dk transition-colors whitespace-nowrap">Get Your Free Estimate</a>
+      </div>
+
+      <!-- Mobile back link -->
+      <a href="index.html" class="md:hidden text-sm font-medium text-brown hover:underline">← Back</a>
+    </div>
+  </div>
+</header>
+
+
+<!-- ============================================================
+     MAIN CONTENT
+============================================================ -->
+<main class="flex-1 flex items-center justify-center px-4 py-16 sm:py-24">
+  <div class="w-full max-w-lg text-center">
+
+    <!-- Stars -->
+    <div class="flex justify-center gap-1.5 mb-8" aria-hidden="true">
+      <svg class="w-9 h-9 text-brown" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg class="w-9 h-9 text-brown" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg class="w-9 h-9 text-brown" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg class="w-9 h-9 text-brown" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg class="w-9 h-9 text-brown" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>
+
+    <!-- Headline -->
+    <h1 class="font-heading text-4xl sm:text-5xl text-brown-dk font-bold mb-5 leading-tight">
+      Leave Us a Review
+    </h1>
+
+    <!-- Copy -->
+    <p class="text-stone-600 text-lg leading-relaxed mb-2">
+      Happy with how your floors turned out? A quick Google review makes a huge difference for a small business like ours.
+    </p>
+    <p class="text-stone-500 text-base mb-10">
+      Takes about 2 minutes — and we genuinely appreciate every single one.
+    </p>
+
+    <!-- Primary CTA -->
+    <a
+      href="GOOGLE_REVIEW_URL_PLACEHOLDER"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-block bg-brown text-cream font-semibold text-lg px-10 py-4 rounded-full hover:bg-brown-dk transition-colors shadow-sm"
+    >
+      Leave a Google Review
+    </a>
+
+    <!-- Divider -->
+    <div class="border-t border-warm-dk mt-14 pt-10">
+      <p class="text-stone-500 text-sm mb-5">Questions or concerns? Reach out directly — we'll make it right.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="tel:+13204965607" class="text-brown font-semibold hover:underline">320-496-5607</a>
+        <span class="hidden sm:inline text-warm-dk">·</span>
+        <a href="mailto:helperscontracting@gmail.com" class="text-brown hover:underline text-sm">helperscontracting@gmail.com</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="bg-brown-dk text-warm py-8">
+  <div class="max-w-7xl mx-auto px-6 text-center text-sm text-warm-dk">
+    <p class="font-heading italic text-warm text-lg mb-1">Respect the Craft.</p>
+    &copy; <span id="footer-year"></span> Helpers Contracting. All rights reserved.
+  </div>
+</footer>
+
+<script>
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
