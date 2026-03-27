@@ -326,7 +326,7 @@
 
       <!-- Result -->
       <div id="calc-result" class="hidden rounded-xl bg-warm px-8 py-6 text-center mb-6">
-        <p class="text-stone-500 text-sm mb-1" id="calc-range-label">Starting at</p>
+        <p class="text-stone-500 text-sm mb-1">Estimated range</p>
         <p id="calc-range" class="font-heading text-4xl md:text-5xl text-brown font-bold mb-2">—</p>
         <p class="text-stone-500 text-sm">Based on <span id="calc-sqft-display">—</span> sq ft of <span id="calc-service-display">—</span></p>
       </div>
@@ -618,10 +618,10 @@ document.addEventListener('keydown', e => {
 
 // ── Cost Calculator ────────────────────────────────────────────
 const rates = {
-  lvp:        { low: 3.00, high: 3.00, label: 'LVP Installation' },
-  refinish:   { low: 4.00, high: 4.00, label: 'Hardwood Sanding Only' },
-  install:    { low: 8.00, high: 8.00, label: 'Hardwood Full Install' },
-  engineered: { low: 4.00, high: 4.00, label: 'Engineered Flooring' },
+  lvp:        { low: 3.00, high: 4.00,  label: 'LVP Installation' },
+  refinish:   { low: 4.00, high: 5.50,  label: 'Hardwood Sanding Only' },
+  install:    { low: 8.00, high: 11.00, label: 'Hardwood Full Install' },
+  engineered: { low: 4.00, high: 6.00,  label: 'Engineered Flooring' },
 };
 
 function formatDollar(n) {
@@ -644,10 +644,7 @@ function calcUpdate() {
   const low  = sqft * r.low;
   const high = sqft * r.high;
 
-  document.getElementById('calc-range').textContent = low === high
-    ? formatDollar(low)
-    : `${formatDollar(low)} – ${formatDollar(high)}`;
-  document.getElementById('calc-range-label').textContent = low === high ? 'Starting at' : 'Estimated range';
+  document.getElementById('calc-range').textContent = `${formatDollar(low)} – ${formatDollar(high)}`;
   document.getElementById('calc-sqft-display').textContent = Math.round(sqft).toLocaleString() + ' sq ft';
   document.getElementById('calc-service-display').textContent = r.label;
 
